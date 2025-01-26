@@ -5,6 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productRoutes');
 // We can import other routes here too
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors({
 
 // If you want an API prefix, do something like /api/users
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
 
 // Root route
 app.get('/', (req, res) => {
