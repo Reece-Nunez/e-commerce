@@ -5,29 +5,30 @@ const prisma = require('../prismaClient'); // from your prismaClient.js
 
 // Cookie options for HTTP-only cookie
 const cookieOptions = {
-  httpOnly: true,
+  httpOnly: true, // can't be accessed from JS (XSS protection)
   secure: process.env.NODE_ENV === 'production', // Set secure=true in production
-  sameSite: 'strict',
+  sameSite: 'strict', // CSRF mitigation
+  maxAge: 24 * 60* 60* 1000 // 1 day in milliseconds
 };
 
 exports.signup = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Basic validation
+    // 1) Basic validation
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Check if user already exists
+    // 2) Check if user already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Hash password
+    // 3) Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
+    // 4) Create user
     const newUser = await prisma.user.create({
       data: {
         email,
@@ -35,17 +36,21 @@ exports.signup = async (req, res) => {
       },
     });
 
-    // Generate JWT
+    // 5) Generate JWT
     const token = jwt.sign(
       { userId: newUser.id, role: newUser.role },
       process.env.JWT_SECRET,
       { expiresIn: '1d' } // 1 day token
     );
 
-    // Set cookie
+    // 6) Set cookie
     res.cookie('jwt', token, cookieOptions);
 
-    return res.status(201).json({ message: 'User created', userId: newUser.id });
+    // 7) return success
+    return res.status(201).json({
+       message: 'User created successfully',
+       user: {id: newUser.id, email: newUser.email, role: newUser.role } 
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -59,7 +64,7 @@ exports.login = async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Find user
+    // Find user by email
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -81,7 +86,11 @@ exports.login = async (req, res) => {
     // Set cookie
     res.cookie('jwt', token, cookieOptions);
 
-    return res.json({ message: 'Logged in successfully', userId: user.id });
+    // return success
+    return res.json({
+      message: 'Logged in successfully',
+      user: { id: user.id, email: user.email, role: user.role }
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -93,6 +102,7 @@ exports.logout = (req, res) => {
   return res.json({ message: 'Logged out' });
 };
 
+// Example for retrieving logged-in user's profile
 exports.getProfile = async (req, res) => {
   try {
     // req.user is set by authMiddleware
