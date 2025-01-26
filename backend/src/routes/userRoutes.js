@@ -1,8 +1,11 @@
 // routes/userRoutes.js
 const express = require('express');
 const router = express.Router();
+
 const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
+
+// Zod validation
 const validateSchema = require('../middlewares/validateSchema');
 const { userSignupSchema } = require('../validation/userSchemas');
 

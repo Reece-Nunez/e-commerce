@@ -12,10 +12,13 @@ const authMiddleware = (req, res, next) => {
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     // Attach user data to req.user
     req.user = decoded; 
+
     next();
   } catch (error) {
+    console.error('Auth Error:', error);
     return res.status(401).json({ error: 'Unauthorized.' });
   }
 };
