@@ -8,8 +8,90 @@ generator client {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  role     String   @default("USER")
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  role        String   @default("USER")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orders      Order[]
+  reviews     Review[]
+}
+
+model Category {
+  id               Int        @id @default(autoincrement())
+  name             String
+
+  parentCategoryId Int?
+  parent           Category?  @relation("SubcategoryRelation", fields: [parentCategoryId], references: [id])
+  children         Category[] @relation("SubcategoryRelation")
+
+  products         Product[]
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String    
+  description String
+  price       Float
+  brand       String?
+  imageURL    String?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  reviews     Review[]
+  orderItems  OrderItem[]
+
+  @@index([name, brand])
+
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  status     String      @default("PENDING")
+  totalPrice Float       @default(0.0)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  userId     Int
+  user       User        @relation(fields: [userId], references: [id])
+  items      OrderItem[]
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  price     Float
+
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id])
+
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
 }
