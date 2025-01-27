@@ -1,28 +1,50 @@
 // App.js
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 
 function App() {
   return (
-    <div className="bg-white text-black">
-      <h1 className="text-2xl">My E-Commerce</h1>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/login">Login</Link> | <Link to="/register">Register</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Layout>
+            <HomePage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <Layout>
+            <LoginForm />
+          </Layout>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <Layout>
+            <RegisterForm />
+          </Layout>
+        }
+      />
+    </Routes>
   );
 }
 
 function HomePage() {
-  return <div>Welcome to the Home Page!</div>;
+  return (
+    <div className="text-center">
+      <h1 className="text-3xl font-bold mb-4">Welcome to the Home Page!</h1>
+      <p className="text-gray-600">
+        Discover our latest products, browse categories, and more.
+      </p>
+    </div>
+  );
 }
 
 export default App;
