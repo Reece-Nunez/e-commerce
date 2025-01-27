@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import './index.css';
 
 function App() {
   return (
