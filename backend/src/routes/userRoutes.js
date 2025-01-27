@@ -6,7 +6,7 @@ const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 // Zod validation
-const validateSchema = require('../middlewares/validateSchema');
+const { validateSchema } = require('../middlewares/validateSchema');
 const { userSignupSchema } = require('../validation/userSchemas');
 
 router.post('/signup', validateSchema(userSignupSchema), userController.signup);

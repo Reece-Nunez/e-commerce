@@ -1,4 +1,6 @@
 // middlewares/validateSchema.js
+const { z } = require('zod');
+
 const validateSchema = (schema) => (req, res, next) => {
     try {
       // Parse throws if invalid
@@ -13,7 +15,6 @@ const validateSchema = (schema) => (req, res, next) => {
     }
   };
 
-  const { z } = require('zod');
 
 const userSignupSchema = z.object({
   email: z.string().email(),

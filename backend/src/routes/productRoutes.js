@@ -5,7 +5,7 @@ const router = express.Router();
 const productController = require('../controllers/productController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
-const validateSchema = require('../middlewares/validateSchema');
+const { validateSchema } = require('../middlewares/validateSchema');
 const { createProductSchema } = require('../validation/productSchemas');
 
 // Public routes

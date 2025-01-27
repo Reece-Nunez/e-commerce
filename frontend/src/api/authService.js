@@ -1,9 +1,9 @@
 // src/api/authService.js
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 // Sign up a new user
 export const signupUser = async (email, password) => {
-  const response = await axiosClient.post('/users/signup', {
+  const response = await axiosClient.post("/users/signup", {
     email,
     password,
   });
@@ -13,21 +13,21 @@ export const signupUser = async (email, password) => {
 
 // Login user
 export const loginUser = async (email, password) => {
-  const response = await axiosClient.post('/users/login', {
+  const response = await axiosClient.post("/users/login", {
     email,
     password,
   });
-  return response.data; 
+  return response.data;
 };
 
 // Logout user
 export const logoutUser = async () => {
-  const response = await axiosClient.post('/users/logout');
+  const response = await axiosClient.post("/users/logout");
   return response.data;
 };
 
 // Get logged-in user's profile
 export const getProfile = async () => {
-  const response = await axiosClient.get('/users/profile');
+  const response = await axiosClient.get("/users/profile");
   return response.data;
 };

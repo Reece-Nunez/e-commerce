@@ -1,37 +1,34 @@
-// src/components/LoginForm.jsx
 import React, { useState } from "react";
-import { loginUser, getProfile } from "../api/authService";
+import { signupUser, getProfile } from "../api/authService";
 
-function LoginForm() {
+function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      // 1) Attempt login
-      await loginUser(email, password);
-      // 2) Fetch profile to confirm user data
+      await signupUser(email, password);
       const profileData = await getProfile();
       setUserInfo(profileData);
       setError(null);
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.error || "Login failed");
+      setError(err.response?.data?.error || "Signup failed");
     }
   };
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       {userInfo ? (
         <div>
           Welcome, {userInfo.email} (Role: {userInfo.role})
         </div>
       ) : (
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignup}>
           <div>
             <label>Email:</label>
             <input
@@ -48,7 +45,7 @@ function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit">Sign Up</button>
         </form>
       )}
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -56,4 +53,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

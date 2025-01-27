@@ -1,6 +1,6 @@
 // src/components/ProductList.jsx
-import React, { useEffect, useState } from 'react';
-import { getAllProducts } from '../api/productService';
+import React, { useEffect, useState } from "react";
+import { getAllProducts } from "../api/productService";
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -12,7 +12,7 @@ function ProductList() {
         const data = await getAllProducts();
         setProducts(data);
       } catch (err) {
-        setError(err.response?.data?.error || 'Failed to fetch products');
+        setError(err.response?.data?.error || "Failed to fetch products");
       }
     };
     fetchProducts();
@@ -24,7 +24,9 @@ function ProductList() {
       <h3>Product List</h3>
       <ul>
         {products.map((prod) => (
-          <li key={prod.id}>{prod.name} - ${prod.price}</li>
+          <li key={prod.id}>
+            {prod.name} - ${prod.price}
+          </li>
         ))}
       </ul>
     </div>
