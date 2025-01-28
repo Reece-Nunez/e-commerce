@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import HomePage from "./components/HomePage";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import ProductList from "./components/ProductList";
 import "./index.css"; // Ensure TailwindCSS is working
 
 function App() {
@@ -36,6 +37,15 @@ function App() {
         element={
           <Layout>
             <RegisterForm />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/products"
+        element={
+          <Layout>
+            <ProductList />
           </Layout>
         }
       />

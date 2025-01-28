@@ -2,8 +2,8 @@
 import axiosClient from "./axiosClient";
 
 export const getAllProducts = async () => {
-  const res = await axiosClient.get("/products");
-  return res.data; // array of products
+  const response = await axios.get("http://localhost:5000/api/products");
+  return response.data;
 };
 
 export const createProduct = async (data) => {
