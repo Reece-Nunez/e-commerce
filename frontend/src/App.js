@@ -2,13 +2,15 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import HomePage from "./components/HomePage";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
-import './index.css';
+import "./index.css"; // Ensure TailwindCSS is working
 
 function App() {
   return (
     <Routes>
+      {/* Home Route */}
       <Route
         path="/"
         element={
@@ -17,6 +19,8 @@ function App() {
           </Layout>
         }
       />
+
+      {/* Login Route */}
       <Route
         path="/login"
         element={
@@ -25,6 +29,8 @@ function App() {
           </Layout>
         }
       />
+
+      {/* Register Route */}
       <Route
         path="/register"
         element={
@@ -34,17 +40,6 @@ function App() {
         }
       />
     </Routes>
-  );
-}
-
-function HomePage() {
-  return (
-    <div className="text-center">
-      <h1 className="text-3xl font-bold mb-4">Welcome to the Home Page!</h1>
-      <p className="text-gray-600">
-        Discover our latest products, browse categories, and more.
-      </p>
-    </div>
   );
 }
 

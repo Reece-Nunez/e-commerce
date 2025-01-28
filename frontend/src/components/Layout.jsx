@@ -1,40 +1,35 @@
-// src/components/Layout.jsx
+// components/Layout.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Layout({ children }) {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold text-navy">
-            <Link to="/">My E-Commerce</Link>
-          </div>
-          <nav className="space-x-4">
-            <Link to="/" className="hover:text-navy transition">
+    <div className="min-h-screen flex flex-col bg-white text-black">
+      {/* Navigation Bar */}
+      <header className="bg-navy text-white py-4">
+        <div className="container mx-auto flex justify-between items-center px-4">
+          <h1 className="text-xl font-bold">My E-Commerce</h1>
+          <nav>
+            <Link className="px-4 hover:underline" to="/">
               Home
             </Link>
-            <Link to="/login" className="hover:text-navy transition">
+            <Link className="px-4 hover:underline" to="/login">
               Login
             </Link>
-            <Link to="/register" className="hover:text-navy transition">
+            <Link className="px-4 hover:underline" to="/register">
               Register
             </Link>
-            {/* Possibly a cart icon or user icon here */}
           </nav>
         </div>
       </header>
 
-      {/* Main content */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 py-8">
-        {children}
-      </main>
+      {/* Main Content */}
+      <main className="flex-grow">{children}</main>
 
       {/* Footer */}
-      <footer className="bg-white shadow mt-8">
-        <div className="max-w-7xl mx-auto px-4 py-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} My E-Commerce
+      <footer className="bg-gray-800 text-white py-4">
+        <div className="container mx-auto text-center">
+          <p>&copy; 2025 My E-Commerce. All rights reserved.</p>
         </div>
       </footer>
     </div>
