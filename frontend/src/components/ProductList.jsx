@@ -1,15 +1,11 @@
 // src/components/ProductList.jsx
 import React, { useEffect, useState } from "react";
 import { getAllProducts } from "../api/productService";
-import CartSidebar from "./CartSidebar";
 
-function ProductList() {
+function ProductList({ addToCart }) {
   const [products, setProducts] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch products on component load
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -22,42 +18,9 @@ function ProductList() {
     fetchProducts();
   }, []);
 
-  // Add product to the cart
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id);
-
-      if (existingItem) {
-        // Increment quantity if item already exists
-        return prevItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
-      } else {
-        // Add new item with quantity of 1
-        return [...prevItems, { ...product, quantity: 1 }];
-      }
-    });
-
-    setIsCartOpen(true); // Open cart sidebar when an item is added
-  };
-
-  // Decrement item quantity or remove from cart if quantity reaches 0
-  const decrementItemQuantity = (productId) => {
-    setCartItems((prevItems) => {
-      return prevItems
-        .map((item) => {
-          if (item.id === productId) {
-            return { ...item, quantity: item.quantity - 1 };
-          }
-          return item;
-        })
-        .filter((item) => item.quantity > 0); // Remove item if quantity reaches 0
-    });
-  };
-
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
 
   return (
     <div>
@@ -98,14 +61,6 @@ function ProductList() {
           </div>
         ))}
       </div>
-
-      {/* Cart Sidebar */}
-      <CartSidebar
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        decrementItemQuantity={decrementItemQuantity}
-      />
     </div>
   );
 }

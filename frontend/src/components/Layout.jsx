@@ -1,14 +1,20 @@
 // src/components/Layout.jsx
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import CartSidebar from "./CartSidebar";
 import PropTypes from "prop-types";
 
-function Layout({ children, cartItems }) {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const handleCartToggle = () => {
-    setIsCartOpen(!isCartOpen);
+function Layout({
+  children,
+  cartItems,
+  updateCartItem,
+  isCartOpen,
+  setIsCartOpen,
+}) {
+  // We could still allow manual toggle if you want, but let's assume we only
+  // open sidebar automatically from addToCart. We do need an onClose though.
+  const closeSidebar = () => {
+    setIsCartOpen(false);
   };
 
   return (
@@ -17,7 +23,7 @@ function Layout({ children, cartItems }) {
       <header className="bg-navy text-white py-4">
         <div className="container mx-auto flex justify-between items-center px-4">
           <h1 className="text-xl font-bold">My E-Commerce</h1>
-          <nav className="flex items-center">
+          <nav>
             <Link className="px-4 hover:underline" to="/">
               Home
             </Link>
@@ -27,17 +33,15 @@ function Layout({ children, cartItems }) {
             <Link className="px-4 hover:underline" to="/register">
               Register
             </Link>
-            <button
-              onClick={handleCartToggle}
-              className="ml-4 bg-white text-navy font-semibold py-2 px-4 rounded hover:bg-gray-200 transition"
-            >
-              Preview Cart
-            </button>
+            <Link className="px-4 hover:underline" to="/products">
+              Products
+            </Link>
+            {/* Instead of toggling the sidebar, go to the CartPage */}
             <Link
+              className="bg-white text-navy font-semibold py-2 px-4 rounded hover:bg-gray-200 transition"
               to="/cart"
-              className="ml-4 bg-white text-navy font-semibold py-2 px-4 rounded hover:bg-gray-200 transition"
             >
-              View Cart
+              Cart
             </Link>
           </nav>
         </div>
@@ -46,34 +50,30 @@ function Layout({ children, cartItems }) {
       {/* Main Content */}
       <main className="flex-grow">{children}</main>
 
+      {/* Cart Sidebar opens automatically (from addToCart) if isCartOpen is true */}
+      <CartSidebar
+        isOpen={isCartOpen}
+        onClose={closeSidebar}
+        cartItems={cartItems}
+        updateCartItem={updateCartItem}
+      />
+
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-4">
         <div className="container mx-auto text-center">
           <p>&copy; 2025 My E-Commerce. All rights reserved.</p>
         </div>
       </footer>
-
-      {/* Cart Sidebar */}
-      <CartSidebar
-        isOpen={isCartOpen}
-        onClose={handleCartToggle}
-        cartItems={cartItems}
-      />
     </div>
   );
 }
 
-// Define prop types
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  cartItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
-      price: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
+  cartItems: PropTypes.array.isRequired,
+  updateCartItem: PropTypes.func.isRequired,
+  isCartOpen: PropTypes.bool.isRequired,
+  setIsCartOpen: PropTypes.func.isRequired,
 };
 
 export default Layout;
