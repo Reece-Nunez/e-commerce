@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import ProductList from "./components/ProductList";
+import ProtectedRoute from "./protectedRoute";
 import "./index.css"; // Ensure TailwindCSS is working
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
           </Layout>
         }
       />
+
+      <Route element={<ProtectedRoute allowedRoles={['ADMIN', 'MANAGER']} />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      </Route>
     </Routes>
   );
 }
