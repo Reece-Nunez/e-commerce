@@ -2,7 +2,6 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended",
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -14,6 +13,5 @@ module.exports = {
     },
   },
   rules: {
-    // your custom ESLint rules
   },
 };

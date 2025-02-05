@@ -7,6 +7,8 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import ProductList from "./components/ProductList";
 import ProtectedRoute from "./protectedRoute";
+import CartPage from "./components/CartPage";
+import AdminDashboard from "./components/AdminDashboard";
 import "./index.css"; // Ensure TailwindCSS is working
 
 function App() {

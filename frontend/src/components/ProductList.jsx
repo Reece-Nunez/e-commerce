@@ -1,6 +1,7 @@
 // src/components/ProductList.jsx
 import React, { useEffect, useState } from "react";
 import { getAllProducts } from "../api/productService";
+import PropTypes from "prop-types";
 
 function ProductList({ addToCart }) {
   const [products, setProducts] = useState([]);
@@ -64,5 +65,11 @@ function ProductList({ addToCart }) {
     </div>
   );
 }
+
+ProductList.propTypes = {
+  products: PropTypes.array.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  allowedRoles: PropTypes.func.isRequired,
+};
 
 export default ProductList;

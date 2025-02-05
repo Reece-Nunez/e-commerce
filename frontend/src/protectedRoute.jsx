@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from './hooks/useAuth';
+import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ allowedRoles }) => {
     const { user } = useAuth();
@@ -16,6 +17,10 @@ const ProtectedRoute = ({ allowedRoles }) => {
     }
 
     return <Outlet />;
+};
+
+ProtectedRoute.propTypes = {
+    allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default ProtectedRoute;
