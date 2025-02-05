@@ -5,8 +5,10 @@ import heroImage from "../assets/images/hero-banner.jpeg";
 
 function HomePage() {
   return (
-    <section className="relative bg-cover bg-center bg-no-repeat min-h-[400px] flex items-center"
-      style={{ backgroundImage: `url(${heroImage})` }}>
+    <section
+      className="relative bg-cover bg-center bg-no-repeat min-h-[400px] flex items-center"
+      style={{ backgroundImage: `url(${heroImage})` }}
+    >
       <div className="bg-black/50 absolute inset-0"></div>
       <div className="relative z-10 max-w-4xl mx-auto text-center text-white px-4">
         <h1 className="text-4xl font-bold mb-4">Welcome to My E-Commerce</h1>

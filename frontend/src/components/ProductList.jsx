@@ -1,9 +1,8 @@
 // src/components/ProductList.jsx
 import React, { useEffect, useState } from "react";
 import { getAllProducts } from "../api/productService";
-import { Link } from "react-router-dom";
 
-function ProductList() {
+function ProductList({ addToCart }) {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
 
@@ -19,7 +18,9 @@ function ProductList() {
     fetchProducts();
   }, []);
 
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
 
   return (
     <div>
@@ -30,7 +31,7 @@ function ProductList() {
             key={prod.id}
             className="bg-white rounded shadow p-4 flex flex-col"
           >
-            {/* If you have an imageURL, show it, otherwise a placeholder */}
+            {/* Product Image */}
             <div className="mb-2">
               {prod.imageURL ? (
                 <img
@@ -45,15 +46,18 @@ function ProductList() {
               )}
             </div>
 
+            {/* Product Details */}
             <h4 className="font-semibold text-lg mb-1">{prod.name}</h4>
             <p className="text-gray-600 flex-1">{prod.description}</p>
             <p className="font-bold mt-2">${prod.price}</p>
-            <Link
-              to={`/product/${prod.id}`}
-              className="mt-4 bg-navy text-white text-center py-2 rounded hover:bg-blue-900 transition"
+
+            {/* Add to Cart Button */}
+            <button
+              className="mt-4 bg-navy text-white py-2 rounded hover:bg-blue-900 transition"
+              onClick={() => addToCart(prod)}
             >
-              View Details
-            </Link>
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>
