@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import SalesChart from '../components/SalesChart';
 
 function AdminDashboard() {
     const [stats, setStats] = useState(null);
     const [recentOrders, setRecentOrders] = useState([]);
+    const [salesData, setSalesData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const response = await axios.get('/api/admin/dashboard');
-                setStats(response.data.stats);
-                setRecentOrders(response.data.recentOrders);
+                const statsResponse = await axios.get('/api/admin/dashboard');
+                const salesResponse = await axios.get('/api/admin/sales-trends');
+
+                setStats(statsResponse.data.stats);
+                setRecentOrders(statsResponse.data.recentOrders);
+                setSalesData(salesResponse.data);
             } catch (err) {
                 console.error('Error fetching dashboard data:', err);
                 setError('Failed to load dashboard data.');
@@ -36,6 +41,8 @@ function AdminDashboard() {
                 <p>Total Orders: {stats._count.id}</p>
                 <p>Total Revenue: ${stats._sum.totalPrice.toFixed(2)}</p>
             </section>
+
+            <SalesChart data={salesData} />
 
             <section>
                 <h2 className="text-xl font-semibold">Recent Orders</h2>
